@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:hospital_finder_app/core/services/hospital_service.dart';
+import 'package:hospital_finder_app/core/services/service_locator.dart';
 import 'package:stacked/stacked.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -16,13 +18,18 @@ class HomeViewModel extends BaseViewModel {
   double latitude;
   double longitude;
 
+  List<Marker> markers = [];
+
   Future future;
+
+  HospitalService _hospitalService = locator<HospitalService>();
 
   void init(context) {
     _context = context;
+    future = setup();
   }
 
-  Future<void> getLocation() async {
+  Future<void> setup() async {
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -50,12 +57,14 @@ class HomeViewModel extends BaseViewModel {
         'Accuracy: ${location.accuracy} Lat: ${location.latitude} Long: ${location.longitude}');
 
     pos = LatLng(location.latitude, location.longitude);
+
+    markers =
+        await _hospitalService.getHospitalNearby(pos.latitude, pos.longitude);
   }
 
   void onMapCreated(GoogleMapController controller) async {
     mapController = controller;
     mapController.setMapStyle(mapStyle);
-    await getLocation();
     print('Pos');
     print(pos);
     CameraPosition currentPosition = CameraPosition(target: pos, zoom: 12.0);

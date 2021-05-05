@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hospital_finder_app/core/services/service_locator.dart';
 import 'package:hospital_finder_app/router.dart' as router;
 
 void main() {
@@ -10,6 +11,8 @@ void main() {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+
+  setupServiceLocator();
 
   runApp(MyApp());
 }
@@ -24,7 +27,6 @@ class MyApp extends StatelessWidget {
         title: 'Reserve YMCASA',
         theme: ThemeData(
           primaryColor: Color(0xFF0B0C10),
-          fontFamily: 'Montserrat',
           accentColor: Color(0xFF0B0C10),
         ),
         onGenerateRoute: router.generateRoute,

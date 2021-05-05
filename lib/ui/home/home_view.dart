@@ -73,19 +73,35 @@ class HomeView extends StatelessWidget {
                       // top: 24.h,
                       bottom: 20.w,
                     ),
-                    child: Container(
-                      child: Center(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(30.w),
-                          child: GoogleMap(
-                            myLocationEnabled: true,
-                            onMapCreated: model.onMapCreated,
-                            initialCameraPosition:
-                                CameraPosition(target: model.pos, zoom: 11.0),
-                          ),
-                        ),
-                      ),
-                    ),
+                    child: FutureBuilder(
+                        future: model.future,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            return Container(
+                              child: Center(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(30.w),
+                                  child: GoogleMap(
+                                    myLocationEnabled: true,
+                                    onMapCreated: model.onMapCreated,
+                                    initialCameraPosition: CameraPosition(
+                                      target: model.pos,
+                                      zoom: 11.0,
+                                    ),
+                                    markers: Set<Marker>.of(model.markers),
+                                  ),
+                                ),
+                              ),
+                            );
+                          } else {
+                            return Container(
+                              child: Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            );
+                          }
+                        }),
                   ),
                 ),
               ],
