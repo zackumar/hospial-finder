@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:stacked/stacked.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -11,14 +12,54 @@ class HomeViewModel extends BaseViewModel {
 
   GoogleMapController mapController;
 
-  final LatLng center = const LatLng(45.521563, -122.677433);
+  LatLng pos = LatLng(45.521563, -122.677433);
+  double latitude;
+  double longitude;
+
+  Future future;
 
   void init(context) {
     _context = context;
   }
 
-  void onMapCreated(GoogleMapController controller) {
+  Future<void> getLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services disabled');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permission denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    Position location = await Geolocator.getCurrentPosition();
+    print(
+        'Accuracy: ${location.accuracy} Lat: ${location.latitude} Long: ${location.longitude}');
+
+    pos = LatLng(location.latitude, location.longitude);
+  }
+
+  void onMapCreated(GoogleMapController controller) async {
     mapController = controller;
     mapController.setMapStyle(mapStyle);
+    await getLocation();
+    print('Pos');
+    print(pos);
+    CameraPosition currentPosition = CameraPosition(target: pos, zoom: 12.0);
+    mapController
+        .animateCamera(CameraUpdate.newCameraPosition(currentPosition));
   }
 }

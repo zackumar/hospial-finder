@@ -78,9 +78,10 @@ class HomeView extends StatelessWidget {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(30.w),
                           child: GoogleMap(
+                            myLocationEnabled: true,
                             onMapCreated: model.onMapCreated,
-                            initialCameraPosition: CameraPosition(
-                                target: model.center, zoom: 11.0),
+                            initialCameraPosition:
+                                CameraPosition(target: model.pos, zoom: 11.0),
                           ),
                         ),
                       ),
