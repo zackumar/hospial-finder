@@ -9,13 +9,12 @@ import 'package:stacked/stacked.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import 'package:hospital_finder_app/ui/map_style.dart';
+
 class HomeViewModel extends BaseViewModel {
   var _context;
 
   HospitalService hospitalService = locator<HospitalService>();
-
-  String mapStyle =
-      '[{"featureType":"landscape.man_made","elementType":"geometry","stylers":[{"color":"#f7f1e0"}]},{"featureType":"landscape.natural","elementType":"geometry","stylers":[{"color":"#d0e897"}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#bde6ae"}]},{"featureType":"road","elementType":"geometry.stroke","stylers":[{"color":"#ffffff"}]},{"featureType":"road.local","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#a3daf1"}]}]';
 
   GoogleMapController mapController;
   CustomInfoWindowController customInfoController =
@@ -69,7 +68,7 @@ class HomeViewModel extends BaseViewModel {
     createMarkers(results);
   }
 
-  void onMapCreated(GoogleMapController controller) async {
+  void onMapCreated(GoogleMapController controller) {
     mapController = controller;
     mapController.setMapStyle(mapStyle);
     CameraPosition currentPosition = CameraPosition(target: pos, zoom: 12.0);

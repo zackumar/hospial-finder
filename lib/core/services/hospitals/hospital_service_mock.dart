@@ -1,9 +1,4 @@
-import 'dart:convert';
-
 import 'package:hospital_finder_app/core/services/hospital_service.dart';
-import 'package:hospital_finder_app/core/services/hospitals/hospital_config.dart';
-
-import 'package:http/http.dart' as http;
 
 class HospitalServiceMock extends HospitalService {
   @override
@@ -756,5 +751,18 @@ class HospitalServiceMock extends HospitalService {
       ],
       "status": "OK"
     }['results'];
+  }
+
+  Future<dynamic> getPrices(String name) async {
+    print('Test');
+    return {
+      "General Checkup": "\$60",
+      "Physical Examination": "\$170",
+      "ER Visit": "\$383",
+      "Arm Cast": "\$339-\$392",
+      "Leg Cast": "\$555-\$864",
+      "Vaccines": "\$52-\$709",
+      "More on website...": "",
+    };
   }
 }

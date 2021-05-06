@@ -19,4 +19,10 @@ class HospitalServiceHybrid extends HospitalService {
       throw Exception('An error occured getting places nearby');
     }
   }
+
+  Future<dynamic> getPrices(String name) async {
+    return {
+      "General Checkup": "Test",
+    };
+  }
 }
