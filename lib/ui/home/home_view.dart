@@ -90,13 +90,11 @@ class HomeView extends StatelessWidget {
                                         myLocationEnabled: true,
                                         onMapCreated: model.onMapCreated,
                                         onCameraMove: (position) {
-                                          model.hospitalService
-                                              .customInfoController
+                                          model.customInfoController
                                               .onCameraMove();
                                         },
                                         onTap: (position) {
-                                          model.hospitalService
-                                              .customInfoController
+                                          model.customInfoController
                                               .hideInfoWindow();
                                         },
                                         initialCameraPosition: CameraPosition(
@@ -106,8 +104,7 @@ class HomeView extends StatelessWidget {
                                         markers: Set<Marker>.of(model.markers),
                                       ),
                                       CustomInfoWindow(
-                                        controller: model.hospitalService
-                                            .customInfoController,
+                                        controller: model.customInfoController,
                                         height: 75,
                                         width: 150,
                                         offset: 50,

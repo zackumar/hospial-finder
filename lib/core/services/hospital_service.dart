@@ -7,5 +7,6 @@ abstract class HospitalService {
   GoogleMapController mapController;
   CustomInfoWindowController customInfoController;
 
-  Future<List<Marker>> getHospitalNearby(double latitude, double longitude);
+  // Future<List<Marker>> getHospitalNearby(double latitude, double longitude);
+  Future<dynamic> getHospitalNearby(double latitude, double longitude);
 }

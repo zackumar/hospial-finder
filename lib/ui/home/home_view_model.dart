@@ -15,10 +15,15 @@ class HomeViewModel extends BaseViewModel {
   String mapStyle =
       '[{"featureType":"landscape.man_made","elementType":"geometry","stylers":[{"color":"#f7f1e0"}]},{"featureType":"landscape.natural","elementType":"geometry","stylers":[{"color":"#d0e897"}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#bde6ae"}]},{"featureType":"road","elementType":"geometry.stroke","stylers":[{"color":"#ffffff"}]},{"featureType":"road.local","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#a3daf1"}]}]';
 
+  GoogleMapController mapController;
+  CustomInfoWindowController customInfoController =
+      CustomInfoWindowController();
+
   LatLng pos = LatLng(45.521563, -122.677433);
   double latitude;
   double longitude;
 
+  dynamic results;
   List<Marker> markers = [];
 
   Future future;
@@ -57,20 +62,78 @@ class HomeViewModel extends BaseViewModel {
 
     pos = LatLng(location.latitude, location.longitude);
 
-    markers =
+    results =
         await hospitalService.getHospitalNearby(pos.latitude, pos.longitude);
+
+    createMarkers(results);
   }
 
   void onMapCreated(GoogleMapController controller) async {
-    hospitalService.mapController = controller;
-    hospitalService.mapController.setMapStyle(mapStyle);
+    mapController = controller;
+    mapController.setMapStyle(mapStyle);
     print('Pos');
     print(pos);
     CameraPosition currentPosition = CameraPosition(target: pos, zoom: 12.0);
-    hospitalService.mapController
+    mapController
         .animateCamera(CameraUpdate.newCameraPosition(currentPosition));
 
-    hospitalService.customInfoController.googleMapController =
-        hospitalService.mapController;
+    customInfoController.googleMapController = mapController;
+  }
+
+  void createMarkers(dynamic results) {
+    for (var place in results) {
+      var position = LatLng(
+        place['geometry']['location']['lat'],
+        place['geometry']['location']['lng'],
+      );
+
+      markers.add(
+        Marker(
+          markerId: MarkerId(place['place_id']),
+          position: position,
+          onTap: () {
+            mapController.animateCamera(CameraUpdate.newCameraPosition(
+                CameraPosition(target: position, zoom: 15.0)));
+          },
+        ),
+      );
+    }
   }
 }
+
+// void _handleResponse(data) {
+//     var places = data['results'] as dynamic;
+//     for (var place in places) {
+//       print(place);
+//       print(place['geometry']['location']['lat']);
+//       print(place['geometry']['location']['lng']);
+//       print(place['name']);
+
+//       var pos = LatLng(place['geometry']['location']['lat'],
+//           place['geometry']['location']['lng']);
+
+//       markers.add(
+//         Marker(
+//           markerId: MarkerId(place['place_id']),
+//           position: pos,
+//           // infoWindow: InfoWindow(
+//           //     title: place['name'],
+//           //     snippet:
+//           //         'Test test Test test Test \ntest Test test Test test Test'),
+//           onTap: () {
+//             print('${place['name']} go Boop!');
+//             mapController.animateCamera(CameraUpdate.newCameraPosition(
+//                 CameraPosition(target: pos, zoom: 15.0)));
+
+//             customInfoController.addInfoWindow(
+//                 Container(
+//                   width: 100.h,
+//                   height: 100.w,
+//                   color: Colors.red,
+//                 ),
+//                 pos);
+//           },
+//         ),
+//       );
+//     }
+//   }

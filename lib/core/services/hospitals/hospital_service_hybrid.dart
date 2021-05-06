@@ -11,30 +11,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 
 class HospitalServiceHybrid extends HospitalService {
-  List<Marker> markers = [];
-  GoogleMapController mapController;
-  CustomInfoWindowController customInfoController =
-      CustomInfoWindowController();
-
   @override
-  Future<List<Marker>> getHospitalNearby(
-      double latitude, double longitude) async {
-    markers.clear();
-
+  Future<dynamic> getHospitalNearby(double latitude, double longitude) async {
     String url =
         'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=$API_KEY&location=$latitude,$longitude&radius=100000&type=hospital';
-
-    print(url);
 
     var response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
-      _handleResponse(data);
+      return data['results'];
     } else {
       throw Exception('An error occured getting places nearby');
     }
-
-    return markers;
   }
 
   void _handleResponse(data) {
