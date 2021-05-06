@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hospital_finder_app/core/services/hospital_service.dart';
 import 'package:hospital_finder_app/core/services/service_locator.dart';
+import 'package:hospital_finder_app/router.dart';
+import 'package:hospital_finder_app/ui/details/detail_arguments.dart';
 import 'package:stacked/stacked.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -106,7 +108,7 @@ class HomeViewModel extends BaseViewModel {
                   children: [
                     Container(
                       width: 250.w,
-                      height: 250.h,
+                      height: 200.h,
                       child: Padding(
                         padding: EdgeInsets.only(
                           top: 16.h,
@@ -131,13 +133,15 @@ class HomeViewModel extends BaseViewModel {
                                   Text('General Checkup: \$60'),
                                   Text('Physical Examination: \$170'),
                                   Text('ER Visit: \$383'),
-                                  Text('Arm Cast: \$339-\$392'),
                                 ],
                               ),
                             ),
                             InkWell(
                               onTap: () {
-                                print('${place['name']} GO BOOPY');
+                                DetailArguments arguments =
+                                    DetailArguments(place);
+                                Navigator.pushNamed(_context, DetailsViewRoute,
+                                    arguments: arguments);
                               },
                               child: Container(
                                 height: 50.h,

@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
           accentColor: Color(0xFF0B0C10),
         ),
         onGenerateRoute: router.generateRoute,
-        initialRoute: router.DetailsViewRoute,
+        initialRoute: router.HomeViewRoute,
       ),
     );
   }

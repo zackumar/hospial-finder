@@ -106,7 +106,7 @@ class HomeView extends StatelessWidget {
                                       CustomInfoWindow(
                                         controller: model.customInfoController,
                                         width: 250.w,
-                                        height: 260.h,
+                                        height: 210.h,
                                         offset: 50,
                                       ),
                                     ],

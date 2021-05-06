@@ -53,7 +53,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case DetailsViewRoute:
       return CupertinoPageRoute(
           builder: (context) => DetailsView(
-                arguments: arguments,
+                arguments: settings.arguments,
               ));
     default:
       return MaterialPageRoute(builder: (context) => HomeView());

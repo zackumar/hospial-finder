@@ -127,6 +127,7 @@ class DetailsView extends StatelessWidget {
                                       tiltGesturesEnabled: false,
                                       zoomControlsEnabled: false,
                                       zoomGesturesEnabled: false,
+                                      scrollGesturesEnabled: false,
                                       compassEnabled: false,
                                       onTap: (position) => model.mapTap(),
                                       onMapCreated: model.onMapCreated,
