@@ -41,7 +41,7 @@ class DetailsViewModel extends BaseViewModel {
     placeId = details['place_id'];
     name = details['name'];
     address = details['vicinity'];
-    address = address.replaceAll(', ', ',\n');
+
     print(address);
     pos = LatLng(details['geometry']['location']['lat'],
         details['geometry']['location']['lng']);
@@ -73,7 +73,8 @@ class DetailsViewModel extends BaseViewModel {
 
   void mapTap() {
     print('Opening in maps: ${pos.latitude},${pos.longitude}');
-    MapsLauncher.launchCoordinates(pos.latitude, pos.longitude);
+    // MapsLauncher.launchCoordinates(pos.latitude, pos.longitude);
+    MapsLauncher.launchQuery(name);
   }
 
   Future<void> buttonTap() async {
