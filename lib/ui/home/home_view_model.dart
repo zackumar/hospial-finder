@@ -71,8 +71,6 @@ class HomeViewModel extends BaseViewModel {
   void onMapCreated(GoogleMapController controller) async {
     mapController = controller;
     mapController.setMapStyle(mapStyle);
-    print('Pos');
-    print(pos);
     CameraPosition currentPosition = CameraPosition(target: pos, zoom: 12.0);
     mapController
         .animateCamera(CameraUpdate.newCameraPosition(currentPosition));
@@ -97,11 +95,18 @@ class HomeViewModel extends BaseViewModel {
 
             customInfoController.addInfoWindow(
                 Container(
-                  width: 100.h,
-                  height: 100.w,
-                  color: Colors.red,
+                  width: 100.w,
+                  child: Column(
+                    children: [
+                      Text(place['name']),
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16.w),
+                  ),
                 ),
-                pos);
+                position);
           },
         ),
       );
