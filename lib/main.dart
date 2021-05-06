@@ -36,62 +36,138 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// import 'dart:async';
-
+// import 'package:clippy_flutter/triangle.dart';
 // import 'package:flutter/material.dart';
+
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-// void main() => runApp(MyApp());
+// import 'package:custom_info_window/custom_info_window.dart';
+
+// void main() {
+//   runApp(
+//     MyApp(),
+//   );
+// }
 
 // class MyApp extends StatelessWidget {
 //   @override
 //   Widget build(BuildContext context) {
 //     return MaterialApp(
-//       title: 'Flutter Google Maps Demo',
-//       home: MapSample(),
+//       home: CustomInfoWindowExample(),
 //     );
 //   }
 // }
 
-// class MapSample extends StatefulWidget {
+// class CustomInfoWindowExample extends StatefulWidget {
 //   @override
-//   State<MapSample> createState() => MapSampleState();
+//   _CustomInfoWindowExampleState createState() =>
+//       _CustomInfoWindowExampleState();
 // }
 
-// class MapSampleState extends State<MapSample> {
-//   Completer<GoogleMapController> _controller = Completer();
+// class _CustomInfoWindowExampleState extends State<CustomInfoWindowExample> {
+//   CustomInfoWindowController _customInfoWindowController =
+//       CustomInfoWindowController();
 
-//   static final CameraPosition _kGooglePlex = CameraPosition(
-//     target: LatLng(37.42796133580664, -122.085749655962),
-//     zoom: 14.4746,
-//   );
+//   final LatLng _latLng = LatLng(28.7041, 77.1025);
+//   final double _zoom = 15.0;
 
-//   static final CameraPosition _kLake = CameraPosition(
-//       bearing: 192.8334901395799,
-//       target: LatLng(37.43296265331129, -122.08832357078792),
-//       tilt: 59.440717697143555,
-//       zoom: 19.151926040649414);
+//   @override
+//   void dispose() {
+//     _customInfoWindowController.dispose();
+//     super.dispose();
+//   }
+
+//   Set<Marker> _markers = {};
 
 //   @override
 //   Widget build(BuildContext context) {
-//     return new Scaffold(
-//       body: GoogleMap(
-//         mapType: MapType.hybrid,
-//         initialCameraPosition: _kGooglePlex,
-//         onMapCreated: (GoogleMapController controller) {
-//           _controller.complete(controller);
+//     _markers.add(
+//       Marker(
+//         markerId: MarkerId("marker_id"),
+//         position: _latLng,
+//         onTap: () {
+//           _customInfoWindowController.addInfoWindow(
+//             Column(
+//               children: [
+//                 Expanded(
+//                   child: Container(
+//                     decoration: BoxDecoration(
+//                       color: Colors.blue,
+//                       borderRadius: BorderRadius.circular(4),
+//                     ),
+//                     child: Padding(
+//                       padding: const EdgeInsets.all(8.0),
+//                       child: Row(
+//                         mainAxisAlignment: MainAxisAlignment.center,
+//                         children: [
+//                           Icon(
+//                             Icons.account_circle,
+//                             color: Colors.white,
+//                             size: 30,
+//                           ),
+//                           SizedBox(
+//                             width: 8.0,
+//                           ),
+//                           Text(
+//                             "I am here",
+//                             style:
+//                                 Theme.of(context).textTheme.headline6.copyWith(
+//                                       color: Colors.white,
+//                                     ),
+//                           )
+//                         ],
+//                       ),
+//                     ),
+//                     width: double.infinity,
+//                     height: double.infinity,
+//                   ),
+//                 ),
+//                 Triangle.isosceles(
+//                   edge: Edge.BOTTOM,
+//                   child: Container(
+//                     color: Colors.blue,
+//                     width: 20.0,
+//                     height: 10.0,
+//                   ),
+//                 ),
+//               ],
+//             ),
+//             _latLng,
+//           );
 //         },
 //       ),
-//       floatingActionButton: FloatingActionButton.extended(
-//         onPressed: _goToTheLake,
-//         label: Text('To the lake!'),
-//         icon: Icon(Icons.directions_boat),
+//     );
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Custom Info Window Example'),
+//         backgroundColor: Colors.red,
+//       ),
+//       body: Stack(
+//         children: <Widget>[
+//           GoogleMap(
+//             onTap: (position) {
+//               _customInfoWindowController.hideInfoWindow();
+//             },
+//             onCameraMove: (position) {
+//               _customInfoWindowController.onCameraMove();
+//             },
+//             onMapCreated: (GoogleMapController controller) async {
+//               _customInfoWindowController.googleMapController = controller;
+//             },
+//             markers: _markers,
+//             initialCameraPosition: CameraPosition(
+//               target: _latLng,
+//               zoom: _zoom,
+//             ),
+//           ),
+//           CustomInfoWindow(
+//             controller: _customInfoWindowController,
+//             height: 75,
+//             width: 150,
+//             offset: 50,
+//           ),
+//         ],
 //       ),
 //     );
-//   }
-
-//   Future<void> _goToTheLake() async {
-//     final GoogleMapController controller = await _controller.future;
-//     controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
 //   }
 // }

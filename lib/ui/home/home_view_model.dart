@@ -1,3 +1,4 @@
+import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hospital_finder_app/core/services/hospital_service.dart';
@@ -9,10 +10,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class HomeViewModel extends BaseViewModel {
   var _context;
 
+  HospitalService hospitalService = locator<HospitalService>();
+
   String mapStyle =
       '[{"featureType":"landscape.man_made","elementType":"geometry","stylers":[{"color":"#f7f1e0"}]},{"featureType":"landscape.natural","elementType":"geometry","stylers":[{"color":"#d0e897"}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#bde6ae"}]},{"featureType":"road","elementType":"geometry.stroke","stylers":[{"color":"#ffffff"}]},{"featureType":"road.local","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#a3daf1"}]}]';
-
-  GoogleMapController mapController;
 
   LatLng pos = LatLng(45.521563, -122.677433);
   double latitude;
@@ -21,8 +22,6 @@ class HomeViewModel extends BaseViewModel {
   List<Marker> markers = [];
 
   Future future;
-
-  HospitalService _hospitalService = locator<HospitalService>();
 
   void init(context) {
     _context = context;
@@ -59,16 +58,19 @@ class HomeViewModel extends BaseViewModel {
     pos = LatLng(location.latitude, location.longitude);
 
     markers =
-        await _hospitalService.getHospitalNearby(pos.latitude, pos.longitude);
+        await hospitalService.getHospitalNearby(pos.latitude, pos.longitude);
   }
 
   void onMapCreated(GoogleMapController controller) async {
-    mapController = controller;
-    mapController.setMapStyle(mapStyle);
+    hospitalService.mapController = controller;
+    hospitalService.mapController.setMapStyle(mapStyle);
     print('Pos');
     print(pos);
     CameraPosition currentPosition = CameraPosition(target: pos, zoom: 12.0);
-    mapController
+    hospitalService.mapController
         .animateCamera(CameraUpdate.newCameraPosition(currentPosition));
+
+    hospitalService.customInfoController.googleMapController =
+        hospitalService.mapController;
   }
 }

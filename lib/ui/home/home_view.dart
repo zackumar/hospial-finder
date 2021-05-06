@@ -1,3 +1,4 @@
+import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -82,14 +83,36 @@ class HomeView extends StatelessWidget {
                               child: Center(
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(30.w),
-                                  child: GoogleMap(
-                                    myLocationEnabled: true,
-                                    onMapCreated: model.onMapCreated,
-                                    initialCameraPosition: CameraPosition(
-                                      target: model.pos,
-                                      zoom: 11.0,
-                                    ),
-                                    markers: Set<Marker>.of(model.markers),
+                                  child: Stack(
+                                    children: [
+                                      GoogleMap(
+                                        mapToolbarEnabled: false,
+                                        myLocationEnabled: true,
+                                        onMapCreated: model.onMapCreated,
+                                        onCameraMove: (position) {
+                                          model.hospitalService
+                                              .customInfoController
+                                              .onCameraMove();
+                                        },
+                                        onTap: (position) {
+                                          model.hospitalService
+                                              .customInfoController
+                                              .hideInfoWindow();
+                                        },
+                                        initialCameraPosition: CameraPosition(
+                                          target: model.pos,
+                                          zoom: 11.0,
+                                        ),
+                                        markers: Set<Marker>.of(model.markers),
+                                      ),
+                                      CustomInfoWindow(
+                                        controller: model.hospitalService
+                                            .customInfoController,
+                                        height: 75,
+                                        width: 150,
+                                        offset: 50,
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
