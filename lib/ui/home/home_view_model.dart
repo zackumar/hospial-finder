@@ -1,3 +1,4 @@
+import 'package:clippy_flutter/clippy_flutter.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -80,6 +81,10 @@ class HomeViewModel extends BaseViewModel {
 
   void createMarkers(dynamic results) {
     for (var place in results) {
+      // Filter only methodist for ease of data
+      if (!place['name'].toString().toLowerCase().contains('methodist'))
+        continue;
+
       var position = LatLng(
         place['geometry']['location']['lat'],
         place['geometry']['location']['lng'],
@@ -91,20 +96,85 @@ class HomeViewModel extends BaseViewModel {
           position: position,
           onTap: () {
             mapController.animateCamera(CameraUpdate.newCameraPosition(
-                CameraPosition(target: position, zoom: 15.0)));
+                CameraPosition(
+                    target:
+                        LatLng(position.latitude + .005, position.longitude),
+                    zoom: 15.0,
+                    bearing: 0.0)));
 
             customInfoController.addInfoWindow(
-                Container(
-                  width: 100.w,
-                  child: Column(
-                    children: [
-                      Text(place['name']),
-                    ],
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16.w),
-                  ),
+                Column(
+                  children: [
+                    Container(
+                      width: 250.w,
+                      height: 250.h,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          top: 16.h,
+                          left: 16.w,
+                          right: 16.w,
+                          bottom: 16.h,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              place['name'],
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            SingleChildScrollView(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('General Checkup: \$60'),
+                                  Text('Physical Examination: \$170'),
+                                  Text('ER Visit: \$383'),
+                                  Text('Arm Cast: \$339-\$392'),
+                                ],
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                print('${place['name']} GO BOOPY');
+                              },
+                              child: Container(
+                                height: 50.h,
+                                child: Center(
+                                  child: Text(
+                                    'Details',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(16.w),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30.w),
+                      ),
+                    ),
+                    Triangle.isosceles(
+                      edge: Edge.BOTTOM,
+                      child: Container(
+                        color: Colors.white,
+                        width: 20.w,
+                        height: 10.h,
+                      ),
+                    ),
+                  ],
                 ),
                 position);
           },

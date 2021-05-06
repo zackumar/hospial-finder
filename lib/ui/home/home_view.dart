@@ -19,11 +19,11 @@ class HomeView extends StatelessWidget {
               top: 40.h,
               left: 20.w,
               right: 20.w,
-              bottom: 40.h,
+              bottom: 20.h,
             ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
                   // color: Colors.red,
@@ -105,8 +105,8 @@ class HomeView extends StatelessWidget {
                                       ),
                                       CustomInfoWindow(
                                         controller: model.customInfoController,
-                                        height: 75,
-                                        width: 150,
+                                        width: 250.w,
+                                        height: 260.h,
                                         offset: 50,
                                       ),
                                     ],
@@ -119,9 +119,20 @@ class HomeView extends StatelessWidget {
                               child: Center(
                                 child: CircularProgressIndicator(),
                               ),
+                              decoration: BoxDecoration(
+                                color: Color(0xFFE5E5E5),
+                                borderRadius: BorderRadius.circular(30.w),
+                              ),
                             );
                           }
                         }),
+                  ),
+                ),
+                Text(
+                  'Filter',
+                  style: TextStyle(
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
               ],
