@@ -5,6 +5,7 @@ import 'package:hospital_finder_app/core/services/hospital_service.dart';
 import 'package:hospital_finder_app/core/services/service_locator.dart';
 import 'package:stacked/stacked.dart';
 
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HomeViewModel extends BaseViewModel {
@@ -51,7 +52,6 @@ class HomeViewModel extends BaseViewModel {
     }
 
     if (permission == LocationPermission.deniedForever) {
-      // Permissions are denied forever, handle appropriately.
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
@@ -94,6 +94,14 @@ class HomeViewModel extends BaseViewModel {
           onTap: () {
             mapController.animateCamera(CameraUpdate.newCameraPosition(
                 CameraPosition(target: position, zoom: 15.0)));
+
+            customInfoController.addInfoWindow(
+                Container(
+                  width: 100.h,
+                  height: 100.w,
+                  color: Colors.red,
+                ),
+                pos);
           },
         ),
       );
