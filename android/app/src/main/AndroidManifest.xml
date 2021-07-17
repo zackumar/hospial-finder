@@ -19,7 +19,7 @@
     </intent>
   </queries>
 
-  <application android:label="hospital_finder_app" android:icon="@mipmap/ic_launcher">
+  <application android:label="Hospital Finder" android:icon="@mipmap/ic_launcher">
 
     <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCJemIoNeG7IOUFYjaPSDc3eMRYjpzSrMA" />
 
