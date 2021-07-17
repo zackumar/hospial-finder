@@ -52,11 +52,11 @@
 
 ## About The Project
 
-<div style="display: inline-block;">
-  <img style="width: 200px; height: auto;" src="https://github.com/zackumar/hospital-finder/blob/main/images/home.png?raw=true">
-   <img style="width: 200px; height: auto;" src="https://github.com/zackumar/hospital-finder/blob/main/images/home_zoom.png?raw=true">
-    <img style="width: 200px; height: auto;" src="https://github.com/zackumar/hospital-finder/blob/main/images/details.png?raw=true">
-</div>
+<p align="center">
+  <img width="200" src="https://github.com/zackumar/hospital-finder/blob/main/images/home.png?raw=true">
+   <img width="200" src="https://github.com/zackumar/hospital-finder/blob/main/images/home_zoom.png?raw=true">
+    <img width="200" src="https://github.com/zackumar/hospital-finder/blob/main/images/details.png?raw=true">
+</p>
 
 <!-- ![Product Name Screen Shot](https://github.com/zackumar/hospital-finder/blob/main/images/details.png?raw=true) -->
 
